@@ -10,7 +10,7 @@ module Fixjour
 
     def call(context, overrides={})
       overrides = OverridesHash.new(overrides)
-      result = block.bind(context).call(*args(overrides))
+      result = context.instance_exec(*args(overrides), &block)
       case result
       when Hash then klass.new(result.merge(overrides))
       else result
